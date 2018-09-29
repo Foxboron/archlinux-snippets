@@ -39,3 +39,25 @@ endsnippet
 
 snippet go "Golang base" i
 endsnippet
+
+
+snippet pkgver "Package version function" i
+pkgver() {
+    cd $pkgname
+
+    git describe --long --tags | sed -r 's/^v//; s/([^-]*-g)/r\1/; s/-/./g'
+
+    _tag=$(git tag --sort=v:refname | sed -n '$p')
+    printf '%s.r%s.g%s' "${_tag#v}" "$(git rev-list "$_tag"..HEAD --count)" "$(git rev-parse --short HEAD)"
+
+    printf 'r%s.g%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+
+    hg tip --template '{latesttag}.r{latesttagdistance}.{node|short}'
+
+    hg tip --template 'r{rev}.{node|short}'
+
+    printf 'r%s' "$(bzr revno)"
+    
+    printf 'r%s' "$(svnversion)"
+}
+endsnippet
