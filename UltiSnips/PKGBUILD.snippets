@@ -1,0 +1,41 @@
+priority -50
+
+snippet patch "Patch prepare" i
+prepare() {
+    cd $pkgname-$pkgver
+    patch -Np1 -i "${srcdir}/$1"
+}
+endsnippet
+
+snippet main "Maintainer tag" i
+`#!/usr/bin/bash
+main=$(cat /etc/makepkg.conf ~/.makepkg.conf $XDG_CONFIG_HOME/pacman/makepkg.conf 2>/dev/null | grep -oP '^PACKAGER="\K[^"]+')
+echo "# Maintainer:" $main
+`
+endsnippet
+
+snippet base "Metadata" i
+pkgname=$1
+pkgver=$2
+pkgrel=${3:1}
+pkgdesc="$4"
+arch=(${5:"any"})
+url="$6"
+license=("$7")
+depends=($8)
+makedepends=($8)
+optdepends=($9)
+source=($10)
+validpgpkeys=($12)
+sha256sums=($13)
+endsnippet
+
+
+snippet python "Python base" i
+endsnippet
+
+snippet make "Makefile base" i
+endsnippet
+
+snippet go "Golang base" i
+endsnippet
