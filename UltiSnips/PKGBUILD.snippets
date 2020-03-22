@@ -1,23 +1,22 @@
 priority -50
 
-snippet patch "Patch prepare" i
-prepare() {
-    cd "$pkgname-$pkgver"
-    patch -Np1 -i "${srcdir}/$1"
-}
+snippet patch "patch files" i
+`#!/usr/bin/bash
+grep -oP "\K(\w*\.patch)(?=::)" PKGBUILD | xargs printf "patch -Np1 < \"../%s\"\n"
+`
 endsnippet
 
 snippet prepare "Prepare" i
 prepare() {
     cd "${pkgname}-${pkgver}"
-	$1
+    $1
 }
 endsnippet
 
 snippet build "Build" i
 build() {
     cd "${pkgname}-${pkgver}"
-	$1
+    $1
 }
 endsnippet
 
@@ -25,14 +24,19 @@ endsnippet
 snippet package "Package" i
 package() {
     cd "${pkgname}-${pkgver}"
-	$1
+    $1
 }
 endsnippet
 
 snippet main "Maintainer tag" i
 `#!/usr/bin/bash
-main=$(cat /etc/makepkg.conf ~/.makepkg.conf $XDG_CONFIG_HOME/pacman/makepkg.conf 2>/dev/null | grep -oP '^PACKAGER="\K[^"]+')
-echo "# Maintainer:" $main
+echo "# Maintainer:" $(cat /etc/makepkg.conf ~/.makepkg.conf $XDG_CONFIG_HOME/pacman/makepkg.conf 2>/dev/null | grep -oP '^PACKAGER="\K[^"]+')
+`
+endsnippet
+
+snippet contri "Contributor tag" i
+`#!/usr/bin/bash
+echo "# Contributor:" $(cat /etc/makepkg.conf ~/.makepkg.conf $XDG_CONFIG_HOME/pacman/makepkg.conf 2>/dev/null | grep -oP '^PACKAGER="\K[^"]+')
 `
 endsnippet
 
@@ -73,6 +77,10 @@ endsnippet
 
 snippet lisence "Lisence" i
 install -mD0644 ${1:LICENSE} "${pkgdir}/usr/share/licenses/${pkgname}/$1"
+endsnippet
+
+snippet pgp "PGP Fingerprint" i
+validpgpkeys=('${1:FINGERPRINT}')
 endsnippet
 
 snippet pkgver "Package version function" i
