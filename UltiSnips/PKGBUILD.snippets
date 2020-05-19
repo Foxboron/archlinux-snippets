@@ -2,7 +2,7 @@ priority -50
 
 snippet patch "patch files" i
 `#!/usr/bin/bash
-grep -oP "\K(\w*\.patch)(?=::)" PKGBUILD | xargs printf "patch -Np1 < \"../%s\"\n"
+grep -oP "\K([\w\-]*\.patch)(?=::)" PKGBUILD | xargs printf "patch -Np1 < \"\$srcdir/%s\"\n"
 `
 endsnippet
 
@@ -73,6 +73,20 @@ snippet make "Makefile base" i
 endsnippet
 
 snippet go "Golang base" i
+build() {
+  cd "$pkgname-$pkgver"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+  go build  ./cmd/...
+}
+
+check() {
+  cd "$pkgname-$pkgver"
+  go test ./...
+}
 endsnippet
 
 snippet lisence "Lisence" i
