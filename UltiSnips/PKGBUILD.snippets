@@ -72,13 +72,13 @@ endsnippet
 
 snippet python "Python base" i
 build() {
-	cd "${pkgname}-${pkgver}"
-	python setup.py build
+  cd "${pkgname}-${pkgver}"
+  python setup.py build
 }
 
 package() {
-	cd "${pkgname}-${pkgver}"
-	python setup.py install --root="${pkgdir}/" --optimize=1 --skip-build
+  cd "${pkgname}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1 --skip-build
 }
 endsnippet
 
