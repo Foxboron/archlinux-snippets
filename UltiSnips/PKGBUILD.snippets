@@ -117,7 +117,7 @@ check() {
 endsnippet
 
 snippet lisence "Lisence" i
-install -mD0644 ${1:LICENSE} "${pkgdir}/usr/share/licenses/${pkgname}/$1"
+install -Dm0644 ${1:LICENSE} "${pkgdir}/usr/share/licenses/${pkgname}/$1"
 endsnippet
 
 snippet pgp "PGP Fingerprint" i
