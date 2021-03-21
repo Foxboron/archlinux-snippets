@@ -83,6 +83,20 @@ package() {
 endsnippet
 
 snippet make "Makefile base" i
+build() {
+  cd ${pkgname}-${pkgver}
+  make
+}
+
+check() {
+  cd ${pkgname}-${pkgver}
+  make test
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+  make PREFIX="/usr" DESTDIR="$pkgdir" install
+}
 endsnippet
 
 snippet go "Golang base" i
