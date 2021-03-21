@@ -2,7 +2,12 @@ priority -50
 
 snippet patch "patch files" i
 `#!/usr/bin/bash
-grep -oP "\K([\w\-]*\.patch)(?=::)" PKGBUILD | xargs printf "patch -Np1 < \"\$srcdir/%s\"\n"
+source PKGBUILD
+for s in "${source[@]}"; do 
+  if [[ "$s" == *".patch"* ]]; then
+    printf "patch -Np1 < \"\$srcdir/%s\"\n" "${s%::*}"
+  fi
+done
 `
 endsnippet
 
