@@ -61,6 +61,14 @@ validpgpkeys=($12)
 sha256sums=($13)
 endsnippet
 
+snippet git "Git source" i
+_commit=$1
+source=("git+${url}.git#commit=${_commit}")
+validpgpkeys=($2)
+sha256sums=('SKIP')
+endsnippet
+
+
 
 snippet python "Python base" i
 build() {
